@@ -1,0 +1,147 @@
+    <html>
+    <head>
+        <link href="../static/css/farmerstyle.css" rel="stylesheet" type="text/css" media="all"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        function getParticleValues()
+{
+    $.getJSON('http://blynk-cloud.com/dHeSr2A_yh9uwwfzz8rlHhcgB1GcTygy/project', function(data) {
+
+        console.log(data.widgets[0].value);
+        console.log(data.widgets[1].value);
+        console.log(data.widgets[2].value);
+        console.log(data.widgets[3].value);
+        var humidity=data.widgets[0].value;
+        var temperature=data.widgets[1].value;
+        var uv=data.widgets[2].value;
+        var moist=data.widgets[3].value;
+        document.getElementById("data").innerHTML = "<br> SENSOR DATA<br><br> HUMIDITY: "+humidity+"<br><br>  TEMPERATURE:"+temperature+"  <br><br>  MOISTURE CONTENT:"+moist+" <br><br>  UV:"+uv+" <br><br> ";
+    
+  
+  
+});
+}
+
+
+
+        
+        </script>
+    </head>
+    <body>
+        <center>
+            <h1>
+              Hello  {{username}}
+        </h1>
+            
+            <br>
+    
+            <br>
+            <button id="sales" onclick="sales()">
+                SALES
+                
+            </button>
+            
+            <button id="data" onclick="data()" >
+    
+                SENSOR DATA
+            </button>
+
+            <a href="/page/community"><button id="comm">
+    
+                COMMUNITY
+            </button>
+            </a>
+            <button id="soil" onclick="getSoilData()">
+    
+                SOIL TEST
+            </button>
+            
+            <button id="price" onclick="price()">
+                PRICE LIST
+            </button>
+            <script>
+                var count =1;
+                var count1 =1;
+                var count2 =1;
+                var count3=1;
+                var count4=1;
+                function sales() {
+                   count=count+1; 
+                if(count%2==0){
+                    document.getElementById("sales").style.height ="300px";
+                  document.getElementById("sales").innerHTML = "<br> SALES DETAILS <br><br> DATE: <br><br>  VEGITABLE: <br><br>  LOSS IN WEIGHT: <br><br>  TOTAL WEIGHT: <br><br> PRICE: <br>";
+                }
+                else
+                {
+                    document.getElementById("sales").style.height ="20%";
+                document.getElementById("sales").innerHTML = "SALES";
+                }}
+                function data() {
+                   count1=count1+1; 
+                if(count1%2==0){
+                    document.getElementById("data").style.height ="300px";
+                    $( document ).ready(function() {
+                     console.log( "ready!" );
+                     $('#load').hide();
+                     
+                     getParticleValues();
+                    
+                    });
+                }
+                else{
+                document.getElementById("data").style.height ="20%";
+                document.getElementById("data").innerHTML = "SENSOR DATA";
+                }}
+                function getSoilData() {
+                   count3=count3+1; 
+                if(count3%2==0){
+                    document.getElementById("soil").style.height ="300px";
+                   
+  var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "/getSoilData",
+  "method": "POST",
+  "headers": {
+    "cache-control": "no-cache",
+    "postman-token": "4872044e-41f1-2957-db01-b9202f6e80a7"
+  },
+  "processData": false,
+  "contentType": false,
+  "mimeType": "multipart/form-data"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response); 
+  var Carbon=response.Carbon
+  var Magnesium=response.Magnesium
+  var Nitrogen=response.Nitrogen
+  var Phosphorus=response.Phosphorus
+  var Potassium=response.Potassium
+  
+  document.getElementById("soil").innerHTML = response;
+  document.getElementById("soil").innerHTML = "<br> SENSOR DATA<br><br> carbon: "+humidity+"<br><br>  TEMPERATURE:"+temperature+"  <br><br>  MOISTURE CONTENT:"+moist+" <br><br>  UV:"+uv+" <br><br> ";
+  
+});
+
+                }
+                else{
+                document.getElementById("soil").style.height ="20%";
+                document.getElementById("soil").innerHTML = "SOIL TEST";
+                }}
+
+                function price() {
+                   count4=count4+1; 
+                if(count4%2==0){
+                    document.getElementById("price").style.height ="300px";
+                  document.getElementById("price").innerHTML = "<br> PRICE DETAILS<br><br> <br><br> STRING1: <br><br>  STRING2: <br><br> STRING3: <br><br> STRING4: <br><br>STRING5:";
+                }
+                else{
+                document.getElementById("price").style.height ="20%";
+                document.getElementById("price").innerHTML = "PRICE LIST";
+                }}
+                </script>
+        </center>
+       
+    </body>
+</html>

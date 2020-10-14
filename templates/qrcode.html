@@ -1,0 +1,150 @@
+<html>
+    <head>
+        <link href="style.css" rel="stylesheet" type="text/css" media="all"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        function getParticleValues()
+{
+    $.getJSON('http://blynk-cloud.com/dHeSr2A_yh9uwwfzz8rlHhcgB1GcTygy/project', function(data) {
+
+        console.log(data.widgets[0].value);
+        console.log(data.widgets[1].value);
+        console.log(data.widgets[2].value);
+        console.log(data.widgets[3].value);
+        var humidity=data.widgets[0].value;
+        var temperature=data.widgets[1].value;
+        var uv=data.widgets[2].value;
+        var moist=data.widgets[3].value;
+        
+    
+  
+  
+});
+}
+
+
+
+        
+        </script>
+    </head>
+    <style>
+        body{
+            background-image: url('farm.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        </style>
+
+            <h1>
+                <h1 style="color:green;"><center>CONSUMER QR</center> 
+                </h1>
+            
+            <br>
+    
+            <br>
+            <center>
+             <button id="farmer" onclick="farmer()" align="center">
+                Farmer details
+                
+            </button>
+        </center>
+            <br>
+            </br>
+            <br>
+            <center>
+            <button id="crop" onclick="crop()" >
+                Crop Details
+                </br>
+            </button>
+        </center>
+
+            
+            
+            
+            <script>
+                var count =1;
+                var count1 =1;
+                var count2 =1;
+                var count3=1;
+                var count4=1;
+                function farmer() {
+                   count=count+1; 
+                if(count%2==0){
+                    document.getElementById("farmer").style.height ="20%";
+                    document.getElementById("farmer").style.backgroundColor ="white";
+                  document.getElementById("farmer").innerHTML = "<br> FARMER DETAILS: <br><br> Produced By: <br><br>  Address: <br><br> Crop Description: <br><br>";
+                }
+                else
+                {
+                    document.getElementById("farmer").style.height ="20%";
+                document.getElementById("farmer").innerHTML = "FARMER DETAILS";
+                }}
+                function crop() {
+                   count1=count1+1; 
+                if(count1%2==0){
+                    document.getElementById("crop").style.backgroundColor ="white";
+                    document.getElementById("crop").style.color ="black";
+                    document.getElementById("crop").style.height ="25%";
+                 document.getElementById("crop").innerHTML = "<br> CROP DETAILS:<br><br> Fertilizer: <br><br>  Pesticide:  <br><br>  Date harvest: <br><br>  Crop description: <br><br> ";
+                 $( document ).ready(function() {
+    console.log( "ready!" );
+  $('#load').hide();
+      getParticleValues();
+});
+                }
+                else{
+                    document.getElementById("crop").style.backgroundColor ="white";
+                    document.getElementById("crop").style.color ="black";
+                document.getElementById("crop").style.height ="25%";
+                document.getElementById("crop").innerHTML = "CROP DETAILS";
+                }}
+                function getSoilData() {
+                   count3=count3+1; 
+                if(count3%2==0){
+                    document.getElementById("soil").style.height ="300px";
+                   
+  var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "/getSoilData",
+  "method": "POST",
+  "headers": {
+    "cache-control": "no-cache",
+    "postman-token": "4872044e-41f1-2957-db01-b9202f6e80a7"
+  },
+  "processData": false,
+  "contentType": false,
+  "mimeType": "multipart/form-data"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  document.getElementById("soil").innerHTML = response;
+  
+});
+
+                }
+                else{
+                document.getElementById("soil").style.height ="20%";
+                document.getElementById("soil").innerHTML = "SOIL TEST";
+                }}
+
+                
+                </script>
+        </center>
+        <br>
+    </br>
+        <br>
+        <center><b><h2><font color="black" >RANDOM SAMPLE:</font></h2></b>
+        
+        </center>
+        <br>
+        <br>
+    </br>
+        <br>
+            <center><b><h2>EXPIRY DATE:</h2></b>
+        
+        </center>
+  <br>
+    </body>
+</html>

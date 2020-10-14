@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Agrepreneur</title>
+    <!-- Tell the browser to be responsive to screen width -->
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+    
+
+    <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css">
+   
+    <!-- Google Font -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    
+    <style>
+        @font-face {
+            font-family: fred;
+            src: url(libs/Mitr-SemiBold.ttf);
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            $("#addToCart").hide();
+
+            var form = new FormData();
+var settings = {
+  "url": "/getFarmers",
+  "method": "POST",
+  "timeout": 0,
+  "processData": false,
+  "mimeType": "multipart/form-data",
+  "contentType": false,
+  "data": form
+};
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  var data = JSON.parse(response)
+                  console.log(data['response']);
+                  var Fr_data = data['response'];
+                  //alert("procurement created succesfully: "+proc_id);
+                  var option = document.createElement("option");
+                    option.value = "";
+                    option.text = "Select a farmer";
+                    $('#farmer_list').append(option);
+                  for (var i = 0; i < Fr_data.length; i++) {
+                    var item = Fr_data[i];
+                    console.log(item);
+                    var option = document.createElement("option");
+                    option.value = item;
+                    option.text = item;
+                    $('#farmer_list').append(option);
+                  }
+
+});
+        });
+    </script>
+</head>
+
+<body>
+    <form id="theForm" action="submit.php" method="post">
+        <div style="padding-top: 30px; padding-bottom: 40px; padding-left: 55px; padding-right: 55px">
+
+            <div class="box box-default" style="margin: auto;background: #FFFFFF;">
+
+                <div class="box-body"
+                    style="padding-left: 50px; padding-right: 50px; padding-bottom: 40px;padding-top: 40px;">
+                    <h3>Collection Center: Vattavada</h3>
+                    <br>
+                    
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label id="farmerLabel">Farmer:</label>
+                                <select class="form-control select2" name="farmer_list_n" id="farmer_list" required
+                                    onChange="" style="width: 100%" ;>
+                                    
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label id="cropLabel">Crop:</label>
+                                <select class="form-control select2" id="crop_list" style="width: 100%;">
+                                    <option value="null">--Select a crop--</option>
+                                    <option value="Tomato">tomato</option>
+                                    <option value="Cabbage">cabbage</option>
+                                    <option value="Beans">Beans</option>
+                                    <option value="Brinjal">Brinjal</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label >Weight:</label>
+                                <textarea class="form-control" rows="1" placeholder="kg" id="weight" required
+                                    name="weight_n" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="col-md-4">
+                            <label id="date">Harvest Date:</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon"
+                                    onclick="document.getElementById('dateTimeLabel').click();">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" onchange="setDateTimeValue();" class="form-control" name="datetimes"
+                                    id="dateTimeLabel" style="width: 100%" readonly>
+                            </div>
+                        </div> 
+                    -->
+                        <div class="col-md-2">
+                            <div class="form-group" style="float:right; padding-right: 40px;padding-top: 25px">
+                                <button type="button" class="btn btn-block btn-primary btn-lg"
+                                    onclick="add_to_cart_function()" id="cart-button" style="width: 120%;">Add to
+                                    cart</button>
+                                    <br><br>
+                                <script>
+                                    var str="";
+                                    var farmerlist="";
+                                    function add_to_cart_function() {
+                                        //var a = document.getElementById("#crop_list").value;
+
+                                        var f = document.getElementById("farmer_list");
+                                        farmerlist = f.options[f.selectedIndex].text;
+
+                                        var e = document.getElementById("crop_list");
+                                        var strUser1 = e.options[e.selectedIndex].text;
+
+                                        var d = new Date();
+                                                                     
+                                        $("#addToCart").show();
+                                        var strUser2 = document.getElementById('weight').value;
+
+                                        console.log(farmerlist);
+                                        console.log(strUser1); //crop
+                                        console.log(strUser2); //weight
+
+
+                                        $('#addToCart').append('<div class="row"><div class = "col-"><b></b>&ensp;' + strUser1 + '</div><div class = "col-8"> &emsp; &emsp;&emsp; &emsp;&emsp;' + strUser2+ '</div></div>');
+                                        str += strUser1 + ':' + strUser2 + ':' + '0' + '|' ;
+                                        console.log(str);
+
+                                        //output available in var f,str
+
+
+                                    } 
+                                </script>
+
+                            </div>
+                        </div>
+                        <br><br><br>
+                    </div>
+                    <div id="addToCart">
+                            <div class="row">
+                              <div class="col-">
+                                &ensp; Crop
+                              </div>
+                              <div class="col-8">
+                                &emsp; &emsp;&emsp; &emsp; Weight
+                              </div>
+                            <hr>
+                              
+                            </div>                                                     
+                    </div>
+
+                    <br>
+                   <hr style="border-top: 1px solid grey;">
+                    <div class="row">
+                        <div class="form-group" style="float:right; padding-right: 40px">
+                            <button type="button" class="btn btn-block btn-success btn-lg" onclick="submit_function()"
+                                id="submit-button" style="width: 130%;">Submit</button>
+                        </div>
+
+
+                        <div class="form-group" style="float:right; padding-right: 60px">
+                            <button type="reset" class="btn btn-block btn-info btn-lg" id="btn_reset" value="reset" style="width: 150%;" onclick="window.location.reload();">Reset</button>
+                       </div>
+
+
+
+                    </div>
+                    <div id='qr' style='visibility: hidden;'>
+                        <a id="qra">
+                            <img id="qri" width="200" height="200">
+                        </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <style type="text/css">
+            body {}
+
+            .modal-confirm {
+                color: #636363;
+                width: 325px;
+            }
+
+            .modal-confirm .modal-content {
+                padding: 20px;
+                border-radius: 5px;
+                border: none;
+            }
+
+            .modal-confirm .modal-header {
+                border-bottom: none;
+                position: relative;
+            }
+
+            .modal-confirm h4 {
+                text-align: center;
+                font-size: 26px;
+                margin: 30px 0 -15px;
+            }
+
+            .modal-confirm .form-control,
+            .modal-confirm .btn {
+                min-height: 40px;
+                border-radius: 3px;
+            }
+
+            .modal-confirm .close {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+            }
+
+            .modal-confirm .modal-footer {
+                border: none;
+                text-align: center;
+                border-radius: 5px;
+                font-size: 13px;
+            }
+
+            .modal-confirm .icon-box {
+                color: #fff;
+                position: absolute;
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                top: -70px;
+                width: 95px;
+                height: 95px;
+                border-radius: 50%;
+                z-index: 9;
+                background: #82ce34;
+                padding: 15px;
+                text-align: center;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+            }
+
+            .modal-confirm .icon-box i {
+                font-size: 58px;
+                position: relative;
+                top: 3px;
+            }
+
+            .modal-confirm.modal-dialog {
+                margin-top: 80px;
+            }
+
+            .modal-confirm .btn {
+                color: #fff;
+                border-radius: 4px;
+                background: #82ce34;
+                text-decoration: none;
+                transition: all 0.4s;
+                line-height: normal;
+                border: none;
+            }
+
+            .modal-confirm .btn:hover,
+            .modal-confirm .btn:focus {
+                background: #6fb32b;
+                outline: none;
+            }
+
+            .trigger-btn {
+                display: inline-block;
+                margin: 100px auto;
+            }
+        </style>
+        <script>
+            var qrPath="";
+            function submit_function()
+            {
+                var fdata = new FormData();
+  fdata.append("farmerid",farmerlist);
+  fdata.append("croplist",str);
+  console.log("calling api...");
+  var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "/addBatch",
+  "data":fdata,
+  "method": "POST",
+  "headers": {
+    "cache-control": "no-cache",
+    //"postman-token": "4872044e-41f1-2957-db01-b9202f6e80a7"
+  },
+  "processData": false,
+  "contentType": false,
+  "mimeType": "multipart/form-data"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  data=JSON.parse(response);
+  qrPath=data['qrPath']
+  alert("Batch Created Succesfully "+data['batchNumber'])
+  document.getElementById('qr').style.visibility='visible';
+                document.getElementById('addToCart').hidden=true;
+               var a =document.getElementById('qra');
+               a.href=qrPath;
+               var im=document.getElementById('qri');
+               im.src=qrPath;
+});
+               
+            }
+        </script>
+
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+       
+        <!-- AdminLTE App -->
+        <script src="../static/dist/js/adminlte.min.js"></script>
+
+        <!-- AdminLTE for demo purposes -->
+        <script src="../static/dist/js/demo.js"></script>
+        
+
+    </form>
+</body>
+
+</html>

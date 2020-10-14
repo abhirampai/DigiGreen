@@ -1,0 +1,24 @@
+
+DIVYA JOMI <divyajomi01@gmail.com>
+3:31 PM (0 minutes ago)
+to me
+
+<html>
+    <head></head>
+    <body>
+    <!--<input type="text" id="qr-data" onchange="generateQR()">-->
+    <div id="qrcode"></div>
+
+    </body>
+    <script src="qrcode.min.js"></script>
+    <script>
+    var qrdata = document.getElementById('qr-data');//replace url here 
+    var qrcode = new QRCode(document.getElementById('qrcode'));
+
+    function generateQR(){
+        var data=qrdata.value;
+        qrcode.makeCode(data);
+    } 
+    </script>
+
+</html>

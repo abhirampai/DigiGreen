@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Damage</title>
+    <!-- Tell the browser to be responsive to screen width -->
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+
+    
+
+    <link rel="stylesheet" href="../static/dist/css/AdminLTE.min.css">
+   
+    <!-- Google Font -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    
+    <style>
+        @font-face {
+            font-family: fred;
+            src: url(libs/Mitr-SemiBold.ttf);
+        }
+    </style>
+    
+</head>
+
+<body>
+    <form id="theForm" action="submit.php" method="post">
+        <nav class="navbar navbar-light bg-success">
+            <br><br>
+            <span class="navbar-brand mb-0 h1" style="margin:auto;font-family:'Courier New'; color:white;" >DAMAGE UPDATE</span>
+            <br><br>
+          </nav>
+          <script>
+            $(document).ready(function () {
+    
+    var form = new FormData();
+    var settings = {
+    "url": "/getBatch",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+    };
+    
+    $.ajax(settings).done(function (response) {
+    console.log(response);
+    var data = JSON.parse(response)
+          console.log(data['response']);
+          var Fr_data = data['response'];
+          //alert("procurement created succesfully: "+proc_id);
+          var option = document.createElement("option");
+            option.value = "";
+            option.text = "Select a batch";
+            $('#hosting-plan1').append(option);
+          for (var i = 0; i < Fr_data.length; i++) {
+            var item = Fr_data[i];
+            console.log(item);
+            var option = document.createElement("option");
+            option.value = item;
+            option.text = item;
+            $('#hosting-plan1').append(option);
+          }
+    
+    });
+    });
+            </script>
+            <script>
+    
+              function getCrops()
+              {
+                console.log("calling");
+                var batchid=document.getElementById("hosting-plan1").value;
+                console.log(batchid);
+                var fdata = new FormData();
+                fdata.append("batchid",batchid);
+    var settings = {
+    "url": "/getCrops",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": fdata
+    };
+    
+    $.ajax(settings).done(function (response) {
+    console.log(response);
+    var data = JSON.parse(response)
+          console.log(data['response']);
+          var Fr_data = data['response'];
+          //alert("procurement created succesfully: "+proc_id);
+          var option = document.createElement("option");
+            option.value = "";
+            option.text = "Select a crop";
+            $('#cropList').append(option);
+          for (var i = 0; i < Fr_data.length; i++) {
+            var item = Fr_data[i];
+            console.log(item);
+            var option = document.createElement("option");
+            option.value = item;
+            option.text = item;
+            $('#cropList').append(option);
+          }
+    
+    });
+    
+    
+    
+              }
+    
+    
+    
+    
+              function getBatchDetails()
+              {
+                console.log("calling");
+                var weight="";
+                var batchid=document.getElementById("hosting-plan1").value;
+                console.log(batchid);
+                var crop=document.getElementById("cropList").value;
+                var fdata = new FormData();
+                fdata.append("batchid",batchid);
+    var settings = {
+    "url": "/getBatchDetails",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": fdata
+    };
+    
+    $.ajax(settings).done(function (response) {
+    console.log(response);
+    var data = JSON.parse(response)
+          console.log(data['response']);
+          vegarray=data['response']['Vegdetails'];
+          console.log(vegarray);
+          console.log("loop");
+          for (var i=0;i<vegarray.length;i++)
+          {
+            console.log(vegarray[i].split(':')[0]);
+            if (crop==vegarray[i].split(':')[0])
+            {
+              weight=vegarray[i].split(':')[1]
+            }
+          }
+                
+          console.log(weight);
+          document.getElementById('wgt').value=weight;
+          document.getElementById('wgt').innerHTML=weight;
+    
+    });
+    
+    
+    
+              }
+    
+    function updateDamage()
+    {
+      console.log("updating damages");
+      var batchid=document.getElementById("hosting-plan1").value;
+                console.log(batchid);
+                var crop=document.getElementById("cropList").value;
+                var weight=document.getElementById('fdamage').value;
+                console.log(crop,weight);
+      var fdata = new FormData();
+                fdata.append("batchid",batchid);
+                fdata.append("crop",crop);
+                fdata.append("farmerdamage",weight);
+    var settings = {
+    "url": "/updateBatchDamage",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": fdata
+    };
+    
+    $.ajax(settings).done(function (response) {
+    console.log(response);
+    var data = JSON.parse(response)
+    var qrPath=data['qrPath'];
+    console.log(qrPath);
+    var a =document.getElementById('qra');
+                   a.href=qrPath;
+                   var im=document.getElementById('qri');
+                   im.src=qrPath;
+    });
+    }
+              </script>
+        <div style="padding-top: 0px; padding-bottom: 40px; padding-left: 55px; padding-right: 55px">
+
+            <div class="box box-default" style="margin: auto;background: #FFFFFF;">
+
+                <div class="box-body"
+                    style="padding-left: 50px; padding-right: 50px; padding-bottom: 40px;padding-top: 20px;">
+                    
+                   
+                    
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Batch ID:</label>
+                                <select class="form-control select2" name="batch_id_n" id="hosting-plan1" required
+                                    onChange="getCrops()" style="width: 100%" ;>
+                                
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label id="cropLabel">Fruit/Vegetable:</label>
+                                <select class="form-control select2" onchange="getBatchDetails()" id="cropList" style="width: 100%;">
+                                   
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="row">
+                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label >Weight:</label>
+                                <textarea class="form-control" rows="1" placeholder="kg" id="wgt" required
+                                    name="weight_n" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label >Farmer Damage:</label>
+                                <textarea class="form-control" rows="1" placeholder="kg" id="fdamage" required
+                                    name="weight_n" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label >Transport Damage:</label>
+                                <textarea class="form-control" rows="1" placeholder="kg" id="tdamage" required
+                                    name="weight_n" style="resize: none;"></textarea>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                   <hr style="border-top: 1px solid grey;">
+                    <div class="row">
+                        <div class="form-group" style="float:right; padding-left: 20px">
+                            <button type="button" class="btn btn-block btn-success btn-lg" onclick="updateDamage()"
+                                id="submit-button" style="width: 100%;">Submit</button>
+                        </div>
+
+
+                        <div class="form-group" style="float:right; padding-left: 40px">
+                            <button type="reset" class="btn btn-block btn-success btn-lg" id="btn_reset" value="reset" style="width: 110%;" onclick="window.location.reload();">Reset</button>
+                       </div>
+
+
+
+                    </div>
+                    <div id='qr' style='visibility: hidden;'>
+                        <a id="qra">
+                            <img id="qri" width="200" height="200">
+                        </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <style type="text/css">
+            body {}
+
+            .modal-confirm {
+                color: #636363;
+                width: 325px;
+            }
+
+            .modal-confirm .modal-content {
+                padding: 20px;
+                border-radius: 5px;
+                border: none;
+            }
+
+            .modal-confirm .modal-header {
+                border-bottom: none;
+                position: relative;
+            }
+
+            .modal-confirm h4 {
+                text-align: center;
+                font-size: 26px;
+                margin: 30px 0 -15px;
+            }
+
+            .modal-confirm .form-control,
+            .modal-confirm .btn {
+                min-height: 40px;
+                border-radius: 3px;
+            }
+
+            .modal-confirm .close {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+            }
+
+            .modal-confirm .modal-footer {
+                border: none;
+                text-align: center;
+                border-radius: 5px;
+                font-size: 13px;
+            }
+
+            .modal-confirm .icon-box {
+                color: #fff;
+                position: absolute;
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                top: -70px;
+                width: 95px;
+                height: 95px;
+                border-radius: 50%;
+                z-index: 9;
+                background: #82ce34;
+                padding: 15px;
+                text-align: center;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+            }
+
+            .modal-confirm .icon-box i {
+                font-size: 58px;
+                position: relative;
+                top: 3px;
+            }
+
+            .modal-confirm.modal-dialog {
+                margin-top: 80px;
+            }
+
+            .modal-confirm .btn {
+                color: #fff;
+                border-radius: 4px;
+                background: #82ce34;
+                text-decoration: none;
+                transition: all 0.4s;
+                line-height: normal;
+                border: none;
+            }
+
+            .modal-confirm .btn:hover,
+            .modal-confirm .btn:focus {
+                background: #6fb32b;
+                outline: none;
+            }
+
+            .trigger-btn {
+                display: inline-block;
+                margin: 100px auto;
+            }
+        </style>
+        
+
+
+       
+        <!-- AdminLTE App -->
+        <script src="../static/dist/js/adminlte.min.js"></script>
+
+        <!-- AdminLTE for demo purposes -->
+        <script src="../static/dist/js/demo.js"></script>
+        
+
+    </form>
+</body>
+
+</html>

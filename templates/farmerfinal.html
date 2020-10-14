@@ -1,0 +1,226 @@
+<html>
+    <head>
+        <link href="../static/css/farmerstylefinal.css" rel="stylesheet" type="text/css" media="all"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        function getParticleValues()
+{
+    $.getJSON('http://blynk-cloud.com/dHeSr2A_yh9uwwfzz8rlHhcgB1GcTygy/project', function(data) {
+
+        console.log(data.widgets[0].value);
+        console.log(data.widgets[1].value);
+        console.log(data.widgets[2].value);
+        console.log(data.widgets[3].value);
+        var humidity=data.widgets[0].value;
+        var temperature=data.widgets[1].value;
+        var uv=data.widgets[2].value;
+        var moist=data.widgets[3].value;
+        document.getElementById("data").innerHTML = "<br> SENSOR DATA<br><br> HUMIDITY: "+humidity+"<br><br>  TEMPERATURE:"+temperature+"  <br><br>  MOISTURE CONTENT:"+moist+" <br><br>  UV:"+uv+" <br><br> ";
+    
+  
+  
+});
+}
+
+
+
+        
+        </script>
+    </head>
+    <body>
+                 <h1>
+                     <center>
+              Hello  {{username}}
+              </center>
+        </h1>
+            
+            <br>
+    
+            <br>
+        
+            <div class="tab">
+                <button class="tablinks" onclick="opentab(event, 'sales')">SALES</button>
+                <button class="tablinks" onclick="opentab(event, 'data')">SENSOR DATA</button>
+                <button class="tablinks" onclick="opentab(event, 'comm')">COMMUNITY</button>
+                <button class="tablinks" onclick="opentab(event, 'soil')">SOIL TEST</button>
+                <button class="tablinks" onclick="opentab(event, 'price')">PRICE LIST</button>
+              </div>
+              <div id="sales"  class="tabcontent">
+                
+                <br> SALES DETAILS <br><br> DATE: 
+
+                <select id="sellingDate" onchange="getSalesDetails()">
+                </select>
+                  <div id="salesdetails"></div>
+                  
+                 <!--<br><br>VEGETABLE: <br><br>  LOSS IN WEIGHT: <br><br>  TOTAL WEIGHT: <br><br> PRICE: <br>-->
+                  </div>
+              </div>
+              
+              <div id="data" class="tabcontent">
+                  <script>
+                    function getSalesDetails()
+                    {
+                      console.log("getting sale details....")
+                       var sellDate=document.getElementById("sellingDate").value; 
+            var fdata = new FormData();
+            fdata.append("saleDate",sellDate);
+var settings = {
+"url": "/getFarmerSaleData",
+"method": "POST",
+"timeout": 0,
+"processData": false,
+"mimeType": "multipart/form-data",
+"contentType": false,
+"data": fdata
+};
+
+$.ajax(settings).done(function (response) {
+console.log(response);
+sData=JSON.parse(response)
+vegDetails=sData['response']['Vegdetails']
+$("#salesdetails").html("");
+farmerTotal=0
+for (var i=0;i<vegDetails.length;i++)
+{
+  
+  crop=vegDetails[i].split(":")[0];
+  actualWeight=vegDetails[i].split(':')[1];
+  damage=vegDetails[i].split(':')[2];
+  finalWeight=vegDetails[i].split(':')[3];
+  price=1;
+  if(crop.toLowerCase()=="brinjal")
+  {
+    price=120;
+  }
+  else if(crop.toLowerCase()=="tomato")
+  {
+    price=30;
+  }
+  else if(crop.toLowerCase()=="beans")
+  {
+    price=60;
+  }
+  else if(crop.toLowerCase()=="cabbage")
+  {
+    price=74;
+  }
+  total=finalWeight*price;
+  farmerTotal=farmerTotal+total;
+$("#salesdetails").append("<br><br> VEGETABLE : "+crop+"  WEIGHT GIVEN : "+actualWeight+" FARMER DAMAGE : "+damage +" FINAL WEIGHT : "+finalWeight +" PRICE :"+total.toString())
+}
+$("#salesdetails").append("<br><br> TOTAL :" +farmerTotal.toString());
+});
+
+                    }
+                    function getSellingDates()
+                    {
+
+   
+var settings = {
+"url": "/getSalesDates",
+"method": "POST",
+"timeout": 0,
+"processData": false,
+"mimeType": "multipart/form-data",
+"contentType": false,
+
+};
+
+$.ajax(settings).done(function (response) {
+console.log(response);
+var data = JSON.parse(response)
+      console.log(data['response']);
+      var Fr_data = data['response'];
+      //alert("procurement created succesfully: "+proc_id);
+      var option = document.createElement("option");
+        option.value = "";
+        option.text = "Select a date";
+        $('#sellingDate').append(option);
+      for (var i = 0; i < Fr_data.length; i++) {
+        var item = Fr_data[i];
+        console.log(item);
+        var option = document.createElement("option");
+        option.value = item;
+        option.text = item;
+        $('#sellingDate').append(option);
+      }
+
+});
+
+
+                    }
+
+
+
+
+                      $( document ).ready(function() {
+                    console.log( "ready!" );
+                    $('#load').hide();
+                    getParticleValues();
+                    getSellingDates();
+                    });
+                  </script>
+
+                
+              </div>
+              
+              <div id="comm" class="tabcontent">
+                <!--paste link here to communiy forum-->
+              </div>
+              <div id="soil" class="tabcontent">
+                  <script>
+                  var settings = {
+  "async": true,
+  "crossDomain": true,
+  "url": "/getSoilData",
+  "method": "POST",
+  "headers": {
+    "cache-control": "no-cache",
+    "postman-token": "4872044e-41f1-2957-db01-b9202f6e80a7"
+  },
+  "processData": false,
+  "contentType": false,
+  "mimeType": "multipart/form-data"
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+  //document.getElementById("soil").innerHTML = response;
+  var data=JSON.parse(response);
+  console.log(data['response']);
+  document.getElementById("soil").innerHTML = "<br> SOIL TEST DATA<br><br> CARBON: "+data['response']['carbon']+"<br><br>  MAGNESIUM:"+data['response']['magnessium']+"  <br><br>  NITROGEN:"+data['response']['nitrogen']+" <br><br>  PHOSPHORUS:"+data['response']['phosphorous']+" <br><br>  POTASSIUM:"+data['response']['potassium']+" <br><br> ";
+  
+});
+</script>
+                
+              </div>
+              <div id="price" class="tabcontent">
+                <br> PRICE DETAILS<br><br> <br><br> BRINJAL : 120 <br><br> TOMATO : 30 <br><br> BEANS : 60 <br><br> CABBAGE : 74 <br><br>
+              </div>
+            <script>
+                function opentab(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+    </body>
+</html>

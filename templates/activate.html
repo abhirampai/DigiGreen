@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <center>
+  <h1>ACTIVATE</h1></center>
+  <title>ACTIVATE</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+.form-control
+{
+width:500px;
+
+}
+
+
+
+
+<style>
+
+
+
+.button {
+  background-color:blue;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.form-control{
+width: 75%;
+
+}
+
+</style>
+
+
+</style>
+</head>
+
+<body>
+<div class="container form-group">
+  <form>
+
+
+
+ <tr>
+      <label for="name">Username </label>
+      <input type="text" class="form-control" id="uname"  placeholder="Enter username" name="uname" pattern="[A-Za-z]{3,}">
+<br>
+ </tr>
+
+
+ <tr> 
+      <label for="id">UserId</label>
+      <input type="text" class="form-control" id="uid" placeholder="Enter userId" name="uid" onChangepattern="[rR][cC][_][0-9].{1,}">
+ </tr>
+<br>
+
+<tr>
+			<td style="border-top:0px;"><label>Password</label> <font color=red>* </font> </td>
+			<td style="border-top:0px;"><input type="password"  id="psw" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+			title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required class="input-block-level" name="psd" placeholder="Enter the password" onblur="return check1()"> <span id="ps" ></span></td>
+</tr>
+<br>
+<button class="btn btn-default button" onclick="myFunction()">create</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+  var txt;
+  if (confirm("are you sure?")) {
+    alert("created");
+  } else {
+    alert(" not created");
+  }
+  document.getElementById("demo").innerHTML = txt;
+}
+</script>
+
+
+</div>
+</form>
+</body>

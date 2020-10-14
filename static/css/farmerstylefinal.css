@@ -1,0 +1,44 @@
+body{
+    background: url(../images/farmerbg.jpeg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.tab {
+    padding: 10px;
+    overflow: hidden;
+    border: 2px solid #ccc;
+    background-color: rgb(7, 165, 165);
+  }
+  
+  /* Style the buttons that are used to open the tab content */
+  .tab button {
+    background-color: inherit;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: rgb(93, 233, 226);
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: rgb(93, 233, 226);
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    font-family: 'Raleway', sans-serif;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    opacity: 0.75;
+    background-color:beige;
+  }

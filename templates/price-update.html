@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <center>
+  <h1>PRICE UPDATE</h1></center>
+  <title>Price-Update</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<style>
+
+.form-control
+{
+width:device-width;
+
+}
+
+
+.button {
+  background-color:blue;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+</style>
+
+
+
+
+
+</head>
+<body>
+
+<div class="container">
+  <form>
+
+<br>
+<br>
+    <div class="form-group">
+      <label for="name">Vegetable </label>
+      <input type="text" class="form-control" id="name" placeholder="Enter vegetable" name="vegetable" pattern="[A-Za-z]{3,}">
+    </div>
+
+   
+	<div class="form-group">
+      <label>Market Price</label>
+      <input type="number" class="form-control" id="Marketprice" placeholder="Market Price" onClick="fixedhide()" name="Mprice" pattern="[0-9].{1,}" >
+    </div>
+
+
+  	<div class="form-group">
+      <label>Selling Price </label>
+      <input type="number" class="form-control" id="sellingprice" placeholder="Selling Price" name="sprice" pattern="[0-9].{1,}" >
+    </div>
+
+     <button type="submit" id="sub" class="btn btn-default button" onclick="myFunction1()">update</button>  
+
+<div class="form-group">
+      <label>Fixed Price</label>
+      <input type="number" class="form-control" id="fixedprice" placeholder="Fixed Price" onClick="markethide()" name="Fprice" pattern="[0-9].{1,}" >
+    </div>
+
+   
+
+    
+    <button type="submit" id="sub" class="btn btn-default button" onclick="myFunction2()">Submit</button>
+    <script>
+function myFunction2(){
+if(document.getElementById("name").value && document.getElementById("oldprice").value && document.getElementById("newprice").value){ 
+ {
+   alert("price has been updated!");
+}}}
+function fixedhide(){
+document.getElementById("fixedprice").disabled = true;
+}
+
+
+function markethide(){
+document.getElementById("sellingprice").disabled = true;
+document.getElementById("Marketprice").disabled = true;
+}
+
+
+
+
+</script>
+
+  </form>
+</div>
+
+</body>
+</html>
